@@ -14,8 +14,8 @@ export async function POST(request: NextRequest) {
     try {
         // --> we get the body of the request
         const reqBody = await request.json();
-        const { title, completed, createdOn } = reqBody;
-
+        let { title, completed, createdOn } = reqBody;
+        createdOn = createdOn ? createdOn : new Date();
         // ? Check if todo already exist
         const todo = await Todos.findOne({ title, createdOn });
         if (todo) {
@@ -34,4 +34,15 @@ export async function POST(request: NextRequest) {
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 })
     }
+}
+
+
+export async function GET(request: NextRequest) {
+    try {
+        const todos = await Todos.find({});
+        return NextResponse.json({ todos }, { status: 200 });
+    } catch (error) {
+        console.log("Error in getting the")
+    }
+
 }

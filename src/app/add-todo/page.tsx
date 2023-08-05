@@ -1,14 +1,33 @@
 "use client"
 import Link from "next/link";
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function AddTodo() {
 
+    const router = useRouter();
     const [currentTitle, setCurrentTitle] = useState<string>("");
 
-    const addTodo = () => {
-        const title = currentTitle;
+    const addTodo = async () => {
+        const title = currentTitle || "empty";
+        const createdOn = new Date();
+        try {
+            const todo = {
+                title,
+                createdOn,
+                completed: false
+            }
 
+            const resp = await axios.post("/api/todo", todo);
+            console.log(resp);
+
+            router.push('/');
+
+        } catch (error) {
+            console.log("Error creating the todo => addTodo()");
+            console.log(error);
+        }
     }
 
     return (
