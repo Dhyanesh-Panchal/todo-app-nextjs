@@ -1,3 +1,4 @@
+"use server"
 import mongoose from "mongoose";
 
 
@@ -7,6 +8,6 @@ const todoSchema = new mongoose.Schema({
     createdOn: Date
 });
 
-const Todos = mongoose.model('Todos', todoSchema);
+const Todos = mongoose.models.Todos || mongoose.model('Todos', todoSchema);
 
 export default Todos;

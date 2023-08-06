@@ -1,32 +1,37 @@
 "use client"
 import Link from "next/link";
 import axios from 'axios';
+import React, { Suspense } from "react";
+import TodoList from "./todo-list/todoList";
+
+// type todoType = {
+//   _id: string,
+//   title: string,
+//   createdOn: Date,
+//   completed: boolean,
+//   _v: string
+// }
 
 export default function Home() {
 
-  const getTodos: any = async () => {
-    try {
-      const todos = await axios.get('/api/todo');
 
-      console.log("Got the Todos");
-      console.log(todos);
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  }
+
+  const [todos, setTodos] = React.useState<any[]>([{}]);
+
   return (
     <>
       <div className="flex justify-between text-2xl font-serif bg-gray-800 p-5 text-center">
         <h1 className="">MyTodos</h1>
         <Link href={"/add-todo"}>Add</Link>
       </div>
-      <div className="flex flex-col gap-2">
+      <Suspense fallback={<Loading />}>
+        <TodoList />
+      </Suspense>
 
-      </div>
     </>
-
-
-
   )
+}
+
+function Loading() {
+  return <h2>🌀 Loading...</h2>;
 }
