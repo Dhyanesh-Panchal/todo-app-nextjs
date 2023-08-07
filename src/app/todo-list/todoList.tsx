@@ -12,9 +12,6 @@ export default function TodoList() {
 
                 console.log("Got the responce");
                 console.log(resp.data);
-                resp.data.todos.sort((a: any, b: any) => {
-                    return new Date(a.createdOn) - new Date(b.createdOn);
-                })
                 setTodos(resp.data.todos);
             }
             catch (error) {
