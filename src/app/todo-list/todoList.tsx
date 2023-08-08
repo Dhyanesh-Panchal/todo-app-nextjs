@@ -4,14 +4,14 @@ import axios from 'axios';
 
 export default function TodoList() {
     const [todos, setTodos] = useState<any[]>([{}]);
+    const [change, setChange] = useState(true)
 
-    const deleteTodo = (_id: string, indx: number) => {
+    const deleteTodo = async (_id: string, indx: number) => {
         try {
-            axios.delete('/api/todo/' + _id);
-
+            await axios.delete('/api/todo/' + _id);
+            setChange(!change);
         } catch (error) {
             console.log("Error in delete request");
-
         }
     }
 
@@ -30,7 +30,7 @@ export default function TodoList() {
         }
         getTodos();
 
-    }, [todos]); // ! This is inefficient
+    }, [change]);
 
 
     return (
