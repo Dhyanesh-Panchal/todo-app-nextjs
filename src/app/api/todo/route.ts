@@ -49,7 +49,9 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
     try {
-        const { _id } = await request.json();
+        const resp = await request.json();
+        console.log(resp);
+        const _id = resp.params._id;
         const todo = await Todos.findOne({ _id });
 
         if (!todo) {
@@ -57,11 +59,12 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ error: "Todo not present" }, { status: 204 });
         }
         else {
-            Todos.deleteOne({ _id });
+            await Todos.deleteOne({ _id });
             return NextResponse.json({ message: "Delete succesfull" }, { status: 202 });
         }
     } catch (error) {
-        console.log("Error in deleting the data")
+        console.error("Error in deleting the data");
+        console.error(error)
     }
 
 }
