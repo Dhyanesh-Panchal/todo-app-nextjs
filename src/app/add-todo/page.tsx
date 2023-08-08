@@ -20,13 +20,26 @@ export default function AddTodo() {
             }
 
             const resp = await axios.post("/api/todo", todo);
-            console.log(resp);
 
-            router.push('/');
+            if (resp.status == 500) {
+                console.log("User already exist");
+                router.push('/');
 
-        } catch (error) {
-            console.log("Error creating the todo => addTodo()");
-            console.log(error);
+            }
+            else {
+                console.log(resp);
+                router.push('/');
+            }
+
+        } catch (error: any) {
+            if (error.request.status == 500) {
+                console.log("Already exist");
+                router.push("/");
+            }
+            else {
+                console.log("Error creating the todo => addTodo()");
+                console.log(error.request.status);
+            }
         }
     }
 
