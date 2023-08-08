@@ -30,7 +30,7 @@ export default function TodoList() {
         }
         getTodos();
 
-    }, []);
+    }, [todos]); // ! This is inefficient
 
 
     return (
